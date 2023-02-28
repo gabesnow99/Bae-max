@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "avrispmkii",
+    "port": "COM4",
+    "sketch": "Arduino Test Code\\IR_Sensor_Test\\IR_Sensor_Test.ino"
+}
