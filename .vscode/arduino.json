@@ -2,5 +2,5 @@
     "board": "arduino:avr:uno",
     "programmer": "avrispmkii",
     "port": "COM4",
-    "sketch": "Arduino Test Code\\SharpIRLibrary_official_test_code\\SharpIRLibrary_official_test_code.ino"
+    "sketch": "Arduino Test Code\\State_Machine_First_Steps\\State_Machine_First_Steps.ino"
 }
