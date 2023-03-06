@@ -1,5 +1,5 @@
 
-#include <avr/iom328p.h>
+#include <avr/io.h>
 #include "Arduino.h"
 #include <SharpIR.h>
 #include "motor_functions.h"
@@ -19,6 +19,26 @@ unsigned long startMillis = 0;
 
 //create new distance sensor object
 SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
+
+void motor_functions_test(){
+	//test each one of the motor functions in turn
+	drive_forward();
+	delay(5000);
+	stop_motors();
+	delay(1000);
+	drive_left();
+	delay(5000);
+	stop_motors();
+	delay(1000);
+	drive_right();
+	delay(5000);
+	stop_motors();
+	delay(1000);
+	drive_backwards();
+	delay(5000);
+	stop_motors();
+	delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running. 
+}
 
 void setup() {
 	// Pins to configure.
