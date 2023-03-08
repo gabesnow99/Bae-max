@@ -1,6 +1,0 @@
-{
-    "port": "COM3",
-    "board": "arduino:avr:uno",
-    "programmer": "arduino:avrispmkii",
-    "sketch": "IR_Distance_Sensor_test\\IR_Distance_Sensor_test.ino"
-}
