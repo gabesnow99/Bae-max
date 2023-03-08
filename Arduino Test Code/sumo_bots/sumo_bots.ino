@@ -49,7 +49,7 @@ void goBackward(int vel, int milliseconds) {
 }
 
 void turnRight(int deg = 90, int vel = 150) {
-  int time = 250*deg/vel;
+  int time = round(250*deg/vel);
   analogWrite(RF, 0);
   analogWrite(LB, 0);
   analogWrite(RB, vel);
