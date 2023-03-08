@@ -1,48 +1,80 @@
 #include <Arduino.h>
 
-#define LEFT_MOTOR_DIR1 3
-#define LEFT_MOTOR_DIR2 4
+#define RB 6 // PIN D6 TO IN1
+#define RF 9	 // PIN D9 TO IN2
+#define LB 10 // PIN D10 TO IN3
+#define LF 11 // PIN D11 TO IN4
 
-#define RIGHT_MOTOR_DIR1 1
-#define RIGHT_MOTOR_DIR2 2 
+void stopWheels()
+{
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
+	analogWrite(RF, 0);
+	analogWrite(LF, 0);
+}
 
-void stop_motors()
+void goForward(int vel = 150)
 {
-	//Write all motor direction pins to low
-	digitalWrite(LEFT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
-	digitalWrite(RIGHT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
+	analogWrite(RF, vel);
+	analogWrite(LF, vel);
 }
-void drive_forward()
+
+void goForward_withDelay(int vel, int milliseconds)
 {
-	//Write every other direction pin to high.
-	digitalWrite(LEFT_MOTOR_DIR1, HIGH);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
-	digitalWrite(RIGHT_MOTOR_DIR1, HIGH);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
+	analogWrite(RF, vel);
+	analogWrite(LF, vel);
+	delay(milliseconds);
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
+	analogWrite(RF, 0);
+	analogWrite(LF, 0);
 }
-void drive_backwards()
+
+void goBackward(int vel = 150)
 {
-	//Write both motors to drive backwards
-	digitalWrite(LEFT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, HIGH);
-	digitalWrite(RIGHT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, HIGH);
+	analogWrite(RF, 0);
+	analogWrite(LF, 0);
+	analogWrite(RB, vel);
+	analogWrite(LB, vel);
 }
-void drive_left()
+
+void goBackward_withDelay(int vel, int milliseconds)
 {
-	//Write left motor to go backwards, and right motor to keep going forwards.
-	digitalWrite(LEFT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, HIGH);
-	digitalWrite(RIGHT_MOTOR_DIR1, HIGH);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
+	analogWrite(RF, 0);
+	analogWrite(LF, 0);
+	analogWrite(RB, vel);
+	analogWrite(LB, vel);
+	delay(milliseconds);
+	analogWrite(RF, 0);
+	analogWrite(LF, 0);
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
 }
-void drive_right()
+
+void turnRight(int deg = 90, int vel = 150) //going to need to test the blocking that occurs here!!
 {
-	//Write right motor to go backwards, and left motor to keep going forwards.
-	digitalWrite(LEFT_MOTOR_DIR1, HIGH);
-	digitalWrite(LEFT_MOTOR_DIR2, LOW);
-	digitalWrite(RIGHT_MOTOR_DIR1, LOW);
-	digitalWrite(LEFT_MOTOR_DIR2, HIGH);
+	int time = round(250 * deg / vel);
+	analogWrite(RF, 0);
+	analogWrite(LB, 0);
+	analogWrite(RB, vel);
+	analogWrite(LF, vel);
+	delay(time);
+	analogWrite(RB, 0);
+	analogWrite(LF, 0);
+}
+
+void turnLeft(int deg = 90, int vel = 150)//going to need to test the blocking that occurs here!!
+{
+	int time = round(250 * deg / vel);
+	analogWrite(LF, 0);
+	analogWrite(RB, 0);
+	analogWrite(LB, vel);
+	analogWrite(RF, vel);
+	delay(time);
+	analogWrite(LB, 0);
+	analogWrite(RF, 0);
 }

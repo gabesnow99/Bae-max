@@ -13,6 +13,8 @@
 #define LINE_SENSOR_RIGHT 8 //'' for line sensor 2
 
 //Global Variables
+unsigned int turnSpeed = 150;
+unsigned int fullSpeed = 255;
 int Max_Distance_longSensor = 80;
 unsigned long currentMillis = 0;
 unsigned long startMillis = 0;
@@ -22,31 +24,29 @@ SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
 
 void motor_functions_test(){
 	//test each one of the motor functions in turn
-	drive_forward();
-	delay(5000);
-	stop_motors();
+	goForward_withDelay(fullSpeed, 5000);
 	delay(1000);
-	drive_left();
+	turnLeft(90, turnSpeed);
 	delay(5000);
-	stop_motors();
+	stopWheels();
 	delay(1000);
-	drive_right();
+	turnRight(90, turnSpeed);
 	delay(5000);
-	stop_motors();
+	stopWheels();
 	delay(1000);
-	drive_backwards();
+	goBackward_withDelay(fullSpeed, 5000);
 	delay(5000);
-	stop_motors();
+	stopWheels();
 	delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running. 
 }
 
 void setup() {
 	// Pins to configure.
-	//MOTOR PINS
-	pinMode(LEFT_MOTOR_DIR1, OUTPUT);
-	pinMode(LEFT_MOTOR_DIR2, OUTPUT);
-	pinMode(RIGHT_MOTOR_DIR1, OUTPUT);
-	pinMode(RIGHT_MOTOR_DIR2, OUTPUT);
+	//MOTOR PINS ALL ARE PWM PINS.
+	pinMode(RB, OUTPUT);
+  	pinMode(RF, OUTPUT);
+  	pinMode(LB, OUTPUT);
+  	pinMode(LF, OUTPUT);
 	//SENSOR INPUT PINS
 	pinMode(SHORT_SENSOR_INPUT, INPUT);
 	pinMode(START_SENSOR_INPUT, INPUT);
@@ -66,7 +66,7 @@ void loop()
 	enum {BEGINNING, RUSH, TURN_lEFT, TURN_RIGHT, JUKE, REVERSE, PUSH_STATE, STOP} state;
 	state  = BEGINNING; // start off in the beginning, a very good place to start. 
 	//stop motors. 
-	stop_motors();
+	stopWheels();
 	switch (state)
 	{
 		case BEGINNING:
@@ -75,7 +75,7 @@ void loop()
 				delay(5000); //we wait for 5 seconds
 				//then initialize motors and drive forward
 				/*First check of this code is simply making sure that the state machine works as intended.*/
-				drive_forward();
+				goForward();
 				state = RUSH;
 				startMillis = millis();
 				//implement this code after first check is completed. 
@@ -96,7 +96,7 @@ void loop()
 			if ((currentMillis - startMillis) >= 3000)//essentially if more than 3 seconds have passed.
 			{ // then we want to stop the motors and wait for a good 5 seconds for someone
 				//to pick the robot up and turn her off. 
-				stop_motors();
+				stopWheels();
 				state = STOP;
 			}
 

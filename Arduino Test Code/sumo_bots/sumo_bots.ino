@@ -2,7 +2,7 @@ int RB = 6; // PIN D6 TO IN1
 int RF = 9; // PIN D9 TO IN2
 int LB = 10; // PIN D10 TO IN3
 int LF = 11; // PIN D11 TO IN4
-
+//so you're not using pwm signals separately. Clever. 
 void stopWheels() {
   analogWrite(RB, 0);
   analogWrite(LB, 0);
@@ -49,7 +49,7 @@ void goBackward(int vel, int milliseconds) {
 }
 
 void turnRight(int deg = 90, int vel = 150) {
-  int time = round(250*deg/vel);
+  int time = 250*deg/vel;
   analogWrite(RF, 0);
   analogWrite(LB, 0);
   analogWrite(RB, vel);
