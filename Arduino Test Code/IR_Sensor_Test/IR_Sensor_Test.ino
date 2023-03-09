@@ -1,6 +1,6 @@
 
 #include "Arduino.h"
-#define IR_SENSOR_PIN A5
+#define IR_SENSOR_PIN 5
 int IR_sensor_state;
 
 void setup()
@@ -12,7 +12,7 @@ void setup()
 void loop() 
 {
   // put your main code here, to run repeatedly:
-  IR_sensor_state = analogRead(IR_SENSOR_PIN);
+  IR_sensor_state = digitalRead(IR_SENSOR_PIN);
   Serial.println(IR_sensor_state);
   delay(1);
 }

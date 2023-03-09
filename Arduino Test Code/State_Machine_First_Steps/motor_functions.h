@@ -1,9 +1,9 @@
 #include <Arduino.h>
 
-#define RB 6 // PIN D6 TO IN1
-#define RF 9	 // PIN D9 TO IN2
-#define LB 10 // PIN D10 TO IN3
-#define LF 11 // PIN D11 TO IN4
+int RB = 6; // PIN D6 TO IN1
+int RF = 9; // PIN D9 TO IN2
+int LB = 10; // PIN D10 TO IN3
+int LF = 11; // PIN D11 TO IN4
 
 void stopWheels()
 {
@@ -15,6 +15,8 @@ void stopWheels()
 
 void goForward(int vel = 150)
 {
+  //Serial.begin(9600);
+  Serial.println("I have reached go forward!!");
 	analogWrite(RB, 0);
 	analogWrite(LB, 0);
 	analogWrite(RF, vel);
