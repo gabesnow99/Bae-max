@@ -77,7 +77,7 @@ void loop()
 	{
 		case BEGINNING:
 			Serial.println("begin");
-			if(distance < 15) //!digitalRead(START_SENSOR_INPUT)
+			if(digitalRead(START_SENSOR_INPUT)) 
 			{//we've read the start sensor that wants us to drive!!
 				delay(5000); //we wait for 5 seconds
 				//then initialize motors and drive forward
