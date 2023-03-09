@@ -18,6 +18,7 @@ unsigned int fullSpeed = 255;
 unsigned int Max_Distance_longSensor = 80;
 unsigned long currentMillis = 0;
 unsigned long startMillis = 0;
+unsigned int distance = 0;
 enum {BEGINNING, RUSH, TURN_lEFT, TURN_RIGHT, JUKE, REVERSE, PUSH_STATE, STOP} state;
 // start off in the beginning, a very good place to start. 
 
@@ -41,11 +42,10 @@ void motor_functions_test(){
 	stopWheels();
 	delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running. 
 }
-//global variables!!
 
 
 void setup() {
-  state  = BEGINNING; 
+  	state  = BEGINNING; 
 	Serial.begin(9600);
 	// Pins to configure.
 	//MOTOR PINS ALL ARE PWM PINS.
@@ -58,6 +58,7 @@ void setup() {
 	pinMode(START_SENSOR_INPUT, INPUT);
 	pinMode(LINE_SENSOR_LEFT, INPUT);
 	pinMode(LINE_SENSOR_RIGHT, INPUT);
+	stopWheels();
 	//lONG_SENSOR_INPUT is already configured by the object creation.
 	//This article explains how to remap the default pwm frequencies for arduino
 	//TCCR2B = TCCR2B & B1111000 | B00000111;
@@ -68,80 +69,79 @@ void setup() {
 
 void loop() 
 {
-	//Begin the State Machine Layout
-	
-	//stop motors. 
-	while(1){
-		// Serial.println("Current State"state);
-		stopWheels();
-		switch (state)
-		{
-			case BEGINNING:
-        Serial.println("beginning");
-				//Serial.println(digitalRead(START_SENSOR_INPUT));
-				if(!digitalRead(START_SENSOR_INPUT))
-				{//we've read the start sensor that wants us to drive!!
-					delay(500); //we wait for 5 seconds
-					//then initialize motors and drive forward
-					/*First check of this code is simply making sure that the state machine works as intended.*/
-					
-          //delay(500);
-					goForward(150);
-        // delay(300);
-					startMillis = millis();
-					//implement this code after first check is completed. 
-					/*if(long_sensor.getDistance() <= Max_Distance_longSensor)
-					{ //we have detected enemy robot!! Charge!!
-						drive_forward();
-						state = RUSH;
-					}else
-					{ //we have lost the enemy!!
-						drive_left();
-						state = TURN_lEFT;
-					}*/
-				}
-				break;
+	//Begin the State Machine Layout 
+	distance = long_sensor.getDistance();
+	//Serial.println("Current State"state);
+	//stopWheels();
+	switch (state)
+	{
+		case BEGINNING:
+			Serial.println("begin");
+			if(distance < 15) //!digitalRead(START_SENSOR_INPUT)
+			{//we've read the start sensor that wants us to drive!!
+				delay(5000); //we wait for 5 seconds
+				//then initialize motors and drive forward
+				/*First check of this code is simply making sure that the state machine works as intended.*/
+				
+				//delay(500);
+				goForward(255);
+				// delay(300);
+				startMillis = millis();
+				state = RUSH;
+				Serial.println("RUSH");
+				//implement this code after first check is completed. 
+				/*if(long_sensor.getDistance() <= Max_Distance_longSensor)
+				{ //we have detected enemy robot!! Charge!!
+					drive_forward();
+					state = RUSH;
+				}else
+				{ //we have lost the enemy!!
+					drive_left();
+					state = TURN_lEFT;
+				}*/
+			}
+		break;
+		
+		case RUSH:
 			
-			case RUSH:
-				currentMillis = millis();
-        goForward(150);
-        delay(300);
-        if ((currentMillis - startMillis) >= 3000)//essentially if more than 3 seconds have passed.
-				{ // then we want to stop the motors and wait for a good 5 seconds for someone
-					//to pick the robot up and turn her off. 
-					stopWheels();
-					state = STOP;
-				}
+			currentMillis = millis();
+			Serial.println(currentMillis);
+			if ((currentMillis - startMillis) >= 7500)//essentially if more than 3 seconds have passed.
+			{ // then we want to stop the motors and wait for a good 5 seconds for someone
+				//to pick the robot up and turn her off. 
+				stopWheels();
+				state = BEGINNING;
+			}
 
-				break;
+		break;
 
-			case TURN_lEFT:
+		case TURN_lEFT:
 
 
-				break;
+			break;
 
-			case TURN_RIGHT:
+		case TURN_RIGHT:
 
-				break;
+			break;
 
-			case JUKE:
+		case JUKE:
 
-				break;
+			break;
 
-			case (REVERSE):
+		case (REVERSE):
 
-				break;
+			break;
 
-			case PUSH_STATE:
+		case PUSH_STATE:
 
-				break;
-			case STOP:
-				delay(5000);
-        state = BEGINNING;
-				break;
-			default:
-				break;
-		}
+			break;
+		case STOP:
+			delay(5000);
+	state = BEGINNING;
+			break;
+		default:
+			break;
 	}
+	
 
 }

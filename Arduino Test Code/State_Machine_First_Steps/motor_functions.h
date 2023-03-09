@@ -16,7 +16,7 @@ void stopWheels()
 void goForward(int vel = 150)
 {
   //Serial.begin(9600);
-  Serial.println("I have reached go forward!!");
+  	Serial.println("I have reached go forward!!");
 	analogWrite(RB, 0);
 	analogWrite(LB, 0);
 	analogWrite(RF, vel);
