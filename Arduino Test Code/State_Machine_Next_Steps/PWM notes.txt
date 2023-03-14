@@ -1,0 +1,24 @@
+Base pwm frequency for ARDUINO, with this code we could use steppers!!
+
+
+31250Hz for Pin 3, 9, 10, 11
+62500Hz for Pin 5 and 6
+
+To get a waveform of some other frequency than the base frequency; we divide the base frequency by the factor we want to decrease the frequency of the waveform
+
+Allowed Divisor for pin 3 and 11 are 1, 8, 32, 64, 128, 256, 1024.
+Allowed Divisor for pin 5, 6, 9, and 10 are 1, 8, 64, 256, 1024.
+The following code generates the frequency of 30.64 Hz at pin 3 with a 25% duty cycle.
+int PWM_Pin = 3; /* give PWM_Pin name to D3 pin */
+// Perform initialization inside setup()
+void setup()
+{
+pinMode(PWM_Pin,OUTPUT);  /*declare D3 pin as an output pin */ 
+TCCR2B = TCCR2B & B11111000 | B00000111;
+ /*set 30.64Hz Frequency */
+}
+void loop()
+{
+analogWrite(PWM_Pin,64);
+TCCR2B = TCCR2B & B11111000 | B00000111;
+}
