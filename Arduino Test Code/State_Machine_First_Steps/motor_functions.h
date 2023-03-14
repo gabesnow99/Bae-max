@@ -23,7 +23,7 @@ void goForward(int vel = 150)
 	analogWrite(LF, vel);
 }
 
-void goForward_withDelay(int vel, int milliseconds)
+void goForward(int vel, int milliseconds)
 {
 	analogWrite(RB, 0);
 	analogWrite(LB, 0);
@@ -44,7 +44,7 @@ void goBackward(int vel = 150)
 	analogWrite(LB, vel);
 }
 
-void goBackward_withDelay(int vel, int milliseconds)
+void goBackward(int vel, int milliseconds)
 {
 	analogWrite(RF, 0);
 	analogWrite(LF, 0);
@@ -79,4 +79,11 @@ void turnLeft(int deg = 90, int vel = 150)//going to need to test the blocking t
 	delay(time);
 	analogWrite(LB, 0);
 	analogWrite(RF, 0);
+}
+void spinLeft(int vel = 150){
+	analogWrite(LF, 0);
+	analogWrite(RB, 0);
+	analogWrite(LB, vel);
+	analogWrite(RF, vel);
+
 }

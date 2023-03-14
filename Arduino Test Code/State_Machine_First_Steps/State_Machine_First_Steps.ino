@@ -6,7 +6,7 @@
 
 //define statements
 
-#define LONG_SENSOR_INPUT A0
+#define LONG_SENSOR_INPUT A7
 #define SHORT_SENSOR_INPUT 12
 #define START_SENSOR_INPUT 5
 #define LINE_SENSOR_LEFT 7 //the digital input pin for line sensor 1
@@ -19,6 +19,7 @@ unsigned int Max_Distance_longSensor = 80;
 unsigned long currentMillis = 0;
 unsigned long startMillis = 0;
 unsigned int distance = 0;
+bool startupSensorSeen = false;
 enum {BEGINNING, RUSH, TURN_lEFT, TURN_RIGHT, JUKE, REVERSE, PUSH_STATE, STOP} state;
 // start off in the beginning, a very good place to start. 
 
@@ -27,7 +28,7 @@ SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
 
 void motor_functions_test(){
 	//test each one of the motor functions in turn
-	goForward_withDelay(fullSpeed, 5000);
+	goForward(fullSpeed, 5000);
 	delay(1000);
 	turnLeft(90, turnSpeed);
 	delay(5000);
@@ -37,12 +38,11 @@ void motor_functions_test(){
 	delay(5000);
 	stopWheels();
 	delay(1000);
-	goBackward_withDelay(fullSpeed, 5000);
+	goBackward(fullSpeed, 5000);
 	delay(5000);
 	stopWheels();
 	delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running. 
 }
-
 
 void setup() {
   	state  = BEGINNING; 
@@ -77,46 +77,56 @@ void loop()
 	{
 		case BEGINNING:
 			Serial.println("begin");
-			if(digitalRead(START_SENSOR_INPUT)) 
-			{//we've read the start sensor that wants us to drive!!
+			if(!digitalRead(START_SENSOR_INPUT)){
+				startupSensorSeen = true;
 				delay(5000); //we wait for 5 seconds
-				//then initialize motors and drive forward
-				/*First check of this code is simply making sure that the state machine works as intended.*/
+			}
+			if(startupSensorSeen) 
+			{//we've read the start sensor that wants us to drive!!
 				
-				//delay(500);
-				goForward(255);
-				// delay(300);
-				startMillis = millis();
-				state = RUSH;
-				Serial.println("RUSH");
+				//then initialize motors and drive forward
 				//implement this code after first check is completed. 
-				/*if(long_sensor.getDistance() <= Max_Distance_longSensor)
+
+				if(long_sensor.getDistance() < 30)
 				{ //we have detected enemy robot!! Charge!!
-					drive_forward();
+					startMillis = millis();
+					goForward(155);
 					state = RUSH;
-				}else
-				{ //we have lost the enemy!!
-					drive_left();
+					Serial.println("RUSH");
+				}
+				else
+				{
+					spinLeft();
 					state = TURN_lEFT;
-				}*/
+				}
 			}
 		break;
 		
 		case RUSH:
-			
 			currentMillis = millis();
 			Serial.println(currentMillis);
-			if ((currentMillis - startMillis) >= 7500)//essentially if more than 3 seconds have passed.
+			/*if ((currentMillis - startMillis) >= 7500)//essentially if more than 3 seconds have passed.
 			{ // then we want to stop the motors and wait for a good 5 seconds for someone
 				//to pick the robot up and turn her off. 
 				stopWheels();
+				delay(5000);
 				state = BEGINNING;
+			}*/
+			if(long_sensor.getDistance() > 30){ //we have lost the enemy
+				spinLeft();
+				state = TURN_lEFT;
 			}
 
 		break;
 
 		case TURN_lEFT:
-
+			if(long_sensor.getDistance() <= 30)
+			{ //we have detected enemy robot!! Charge!!
+				startMillis = millis();
+				goForward(155);
+				state = RUSH;
+				Serial.println("RUSH");
+			}
 
 			break;
 
