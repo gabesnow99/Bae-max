@@ -84,10 +84,8 @@ void loop()
 			if(startupSensorSeen) 
 			{//we've read the start sensor that wants us to drive!!
 				
-				//then initialize motors and drive forward
-				//implement this code after first check is completed. 
 
-				if(long_sensor.getDistance() < 30)
+				if(long_sensor.getDistance() < 50)
 				{ //we have detected enemy robot!! Charge!!
 					startMillis = millis();
 					goForward(155);
@@ -105,14 +103,8 @@ void loop()
 		case RUSH:
 			currentMillis = millis();
 			Serial.println(currentMillis);
-			/*if ((currentMillis - startMillis) >= 7500)//essentially if more than 3 seconds have passed.
-			{ // then we want to stop the motors and wait for a good 5 seconds for someone
-				//to pick the robot up and turn her off. 
-				stopWheels();
-				delay(5000);
-				state = BEGINNING;
-			}*/
-			if(long_sensor.getDistance() > 30){ //we have lost the enemy
+			
+			if(long_sensor.getDistance() > 50){ //we have lost the enemy
 				spinLeft();
 				state = TURN_lEFT;
 			}
@@ -120,7 +112,7 @@ void loop()
 		break;
 
 		case TURN_lEFT:
-			if(long_sensor.getDistance() <= 30)
+			if(long_sensor.getDistance() <= 50)
 			{ //we have detected enemy robot!! Charge!!
 				startMillis = millis();
 				goForward(155);
