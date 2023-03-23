@@ -80,3 +80,13 @@ void turnLeft(int deg = 90, int vel = 150)//going to need to test the blocking t
 	analogWrite(LB, 0);
 	analogWrite(RF, 0);
 }
+
+void pivotLeft(int deg = 90, int vel = 150) {
+	int time = 2*round(250 * deg / vel);
+	analogWrite(LF, 0);
+	analogWrite(RB, 0);
+	analogWrite(LB, 0);
+	analogWrite(RF, vel);
+	delay(time);
+	stopWheels();	
+}

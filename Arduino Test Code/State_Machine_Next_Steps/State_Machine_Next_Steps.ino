@@ -79,7 +79,7 @@ void loop()
 			Serial.println("begin");
 			if(digitalRead(START_SENSOR_INPUT)) 
 			{//we've read the start sensor that wants us to drive!!
-				delay(5000); //we wait for 5 seconds
+				delay(1000); //we wait for 5 seconds
 				//then initialize motors and drive forward
 				/*First check of this code is simply making sure that the state machine works as intended.*/
 				
@@ -87,7 +87,7 @@ void loop()
 				goForward(255);
 				// delay(300);
 				startMillis = millis();
-				state = RUSH;
+				state = JUKE; // GABE CHANGED THIS FOR TESTING REASONS
 				Serial.println("RUSH");
 				//implement this code after first check is completed. 
 				/*if(long_sensor.getDistance() <= Max_Distance_longSensor)
@@ -125,7 +125,8 @@ void loop()
 			break;
 
 		case JUKE:
-
+			pivotLeft(90);
+			delay(5000);
 			break;
 
 		case (REVERSE):
