@@ -87,7 +87,7 @@ void loop()
 				goForward(255);
 				// delay(300);
 				startMillis = millis();
-				state = JUKE; // GABE CHANGED THIS FOR TESTING REASONS
+				state = RUSH; // GABE CHANGED THIS FOR TESTING REASONS
 				Serial.println("RUSH");
 				//implement this code after first check is completed. 
 				/*if(long_sensor.getDistance() <= Max_Distance_longSensor)

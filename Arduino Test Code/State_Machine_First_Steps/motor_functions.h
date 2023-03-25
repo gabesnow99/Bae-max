@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <SharpIR.h>
 
 int RB = 6; // PIN D6 TO IN1
 int RF = 9; // PIN D9 TO IN2
@@ -97,4 +98,14 @@ void pivotLeft(int deg = 90, int vel = 150) {
   analogWrite(RF, vel);
   delay(time);
   stopWheels(); 
+}
+
+unsigned long getFilteredDist(SharpIR long_sensor) {
+  int windowSize = 10;
+  unsigned long distArr [windowSize];
+  unsigned long sum = 0;
+  for (int i = 0; i < windowSize; i++) {
+    sum += long_sensor.getDistance();
+  }
+  return sum / windowSize;
 }

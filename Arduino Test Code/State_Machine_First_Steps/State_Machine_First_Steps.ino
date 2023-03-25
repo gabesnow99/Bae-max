@@ -1,7 +1,7 @@
 
 #include <avr/io.h>
 #include "Arduino.h"
-#include <SharpIR.h>
+//#include <SharpIR.h>
 #include "motor_functions.h"
 
 //define statements
@@ -11,6 +11,10 @@
 #define START_SENSOR_INPUT 5
 #define LINE_SENSOR_LEFT 7 //the digital input pin for line sensor 1
 #define LINE_SENSOR_RIGHT 8 //'' for line sensor 2
+#include <SharpIR.h>
+
+//create new distance sensor object
+SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
 
 //Global Variables
 unsigned int turnSpeed = 150;
@@ -25,9 +29,6 @@ enum {BEGINNING, RUSH, TURN_lEFT, TURN_RIGHT, JUKE, REVERSE, PUSH_STATE, STOP} s
 
 int gabesSuperFunInt = 0;
 float gabesSuperFunFloat = 0.0;
-
-//create new distance sensor object
-SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
 
 void motor_functions_test(){
 	//test each one of the motor functions in turn
@@ -79,7 +80,16 @@ void loop()
 	switch (state)
 	{
 		case BEGINNING:
+   
 			Serial.println("begin");
+
+
+      while(1) {
+        Serial.println(getFilteredDist(long_sensor));
+      }
+
+
+      
 			if(!digitalRead(START_SENSOR_INPUT)){
 				startupSensorSeen = true;
 				delay(5000); //we wait for 5 seconds
@@ -88,8 +98,7 @@ void loop()
 			{//we've read the start sensor that wants us to drive!!
 				
 
-				if(long_sensor.getDistance() < 50)
-				{ //we have detected enemy robot!! Charge!!
+				if(long_sensor.getDistance() < 50) { //we have detected enemy robot!! Charge!!
 					startMillis = millis();
 					goForward(155);
 					state = RUSH;
