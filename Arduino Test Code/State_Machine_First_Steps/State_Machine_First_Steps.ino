@@ -21,7 +21,10 @@ unsigned long startMillis = 0;
 unsigned int distance = 0;
 bool startupSensorSeen = false;
 enum {BEGINNING, RUSH, TURN_lEFT, TURN_RIGHT, JUKE, REVERSE, PUSH_STATE, STOP} state;
-// start off in the beginning, a very good place to start. 
+// start off in the beginning, a very good place to start.
+
+int gabesSuperFunInt = 0;
+float gabesSuperFunFloat = 0.0;
 
 //create new distance sensor object
 SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
@@ -50,9 +53,9 @@ void setup() {
 	// Pins to configure.
 	//MOTOR PINS ALL ARE PWM PINS.
 	pinMode(RB, OUTPUT);
-  	pinMode(RF, OUTPUT);
-  	pinMode(LB, OUTPUT);
-  	pinMode(LF, OUTPUT);
+	pinMode(RF, OUTPUT);
+	pinMode(LB, OUTPUT);
+	pinMode(LF, OUTPUT);
 	//SENSOR INPUT PINS
 	pinMode(SHORT_SENSOR_INPUT, INPUT);
 	pinMode(START_SENSOR_INPUT, INPUT);
@@ -102,12 +105,19 @@ void loop()
 		
 		case RUSH:
 			currentMillis = millis();
-			Serial.println(currentMillis);
+//			Serial.println(currentMillis);
+      Serial.println(long_sensor.getDistance());
+
+//      float distance = long_sensor.getDistance();
 			
 			if(long_sensor.getDistance() > 50){ //we have lost the enemy
 				spinLeft();
 				state = TURN_lEFT;
 			}
+      else if (long_sensor.getDistance() < 10) {
+//        gabesSuperFunFloat = currentMillis;
+        state = JUKE;
+      }
 
 		break;
 
@@ -127,7 +137,9 @@ void loop()
 			break;
 
 		case JUKE:
-
+      Serial.println("JUKE");
+      pivotLeft(270);
+      state = PUSH_STATE;
 			break;
 
 		case (REVERSE):
@@ -135,7 +147,8 @@ void loop()
 			break;
 
 		case PUSH_STATE:
-
+      goForward();
+      while(1);
 			break;
 		case STOP:
 			delay(5000);
