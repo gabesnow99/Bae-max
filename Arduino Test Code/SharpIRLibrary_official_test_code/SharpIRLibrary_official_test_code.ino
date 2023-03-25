@@ -31,19 +31,8 @@ int RB = 6;  // PIN D6 TO IN1
 int RF = 9;  // PIN D9 TO IN2
 int LB = 10; // PIN D10 TO IN3
 int LF = 11; // PIN D11 TO IN4
-unsigned long currentMillis = 0;
-unsigned long startMillis = 0;
-enum
-{
-  BEGINNING,
-  RUSH,
-  TURN_lEFT,
-  TURN_RIGHT,
-  JUKE,
-  REVERSE,
-  PUSH_STATE,
-  STOP
-} state;
+
+
 void goForward(int vel = 150)
 {
   // Serial.begin(9600);

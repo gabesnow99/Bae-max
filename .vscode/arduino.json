@@ -2,6 +2,6 @@
     "board": "arduino:avr:nano",
     "programmer": "avrispmkii",
     "port": "COM4",
-    "sketch": "Arduino Test Code\\State_Machine_First_Steps\\State_Machine_First_Steps.ino",
+    "sketch": "Arduino Test Code\\IR_Distance_Sensor_test\\IR_Distance_Sensor_test.ino",
     "configuration": "cpu=atmega328"
 }
