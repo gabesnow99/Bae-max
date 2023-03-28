@@ -1,7 +1,7 @@
 {
     "board": "arduino:avr:nano",
     "programmer": "avrispmkii",
-    "port": "COM4",
-    "sketch": "Arduino Test Code\\IR_Distance_Sensor_test\\IR_Distance_Sensor_test.ino",
+    "port": "COM3",
+    "sketch": "Arduino Test Code\\sideSensorTest\\sideSensorTest.ino",
     "configuration": "cpu=atmega328"
 }

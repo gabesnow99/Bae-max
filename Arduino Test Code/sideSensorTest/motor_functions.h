@@ -50,11 +50,11 @@ void goBackward(int vel, int milliseconds)
 	analogWrite(LF, 0);
 	analogWrite(RB, vel);
 	analogWrite(LB, vel);
-	delay(milliseconds);
-	analogWrite(RF, 0);
-	analogWrite(LF, 0);
-	analogWrite(RB, 0);
-	analogWrite(LB, 0);
+	// delay(milliseconds);
+	// analogWrite(RF, 0);
+	// analogWrite(LF, 0);
+	// analogWrite(RB, 0);
+	// analogWrite(LB, 0);
 }
 
 void turnRight(int deg = 90, int vel = 150) //going to need to test the blocking that occurs here!!
