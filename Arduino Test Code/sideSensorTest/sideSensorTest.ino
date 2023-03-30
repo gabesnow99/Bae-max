@@ -40,6 +40,11 @@ float gabesSuperFunFloat = 0.0;
 // create new distance sensor object
 SharpIR long_sensor(SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT);
 
+void respond(){
+  //ISR function
+  Serial.println("STOP!");
+}
+
 void motor_functions_test()
 {
     // test each one of the motor functions in turn
@@ -58,6 +63,7 @@ void motor_functions_test()
     stopWheels();
     delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running.
 }
+
 bool isRightBlack(){
     if(digitalRead(LINE_SENSOR_RIGHT)){
         return true;
@@ -94,6 +100,10 @@ void setup()
     // TCCR2B = TCCR2B & B1111000 | B00000111;
     // we may not use the above code, but here is the link to the article I was reading
     // https://microcontrollerslab.com/arduino-pwm-tutorial-generate-fix-and-variable-frequency-signal/#:~:text=The%20analogWrite()%20function%20which,using%20the%20analogWrite()%20command.
+
+    //interrupt
+    attachInterrupt(LINE_SENSOR_RIGHT, respond, CHANGE) ;//i THINK WE want rising
+
 }
 
 void loop()
@@ -185,13 +195,13 @@ void loop()
         break;
     case TEST:
         // Serial.println(digitalRead(LINE_SENSOR_LEFT));
-        if(isRightBlack()){
-          escapeRightBack();
-        }else if(isLeftBlack()){
-          escapeLeftBack();
-        }else{
-          goBackward();
-        }
+        // if(isRightBlack()){
+        //   escapeRightBack();
+        // }else if(isLeftBlack()){
+        //   escapeLeftBack();
+        // }else{
+        //   goBackward();
+        // }
         break;
     default:
         break;
