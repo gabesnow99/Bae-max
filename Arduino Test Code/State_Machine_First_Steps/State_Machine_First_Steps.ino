@@ -59,7 +59,7 @@ void motor_functions_test()
     stopWheels();
     delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running.
 }
-bool isFrontRightBlack()
+bool isFrontRightWhite()
 {
     if (digitalRead(LINE_SENSOR_FRONT_RIGHT))
     {
@@ -70,7 +70,7 @@ bool isFrontRightBlack()
         return false;
     }
 }
-bool isFrontLeftBlack()
+bool isFrontLeftWhite()
 {
     if (digitalRead(LINE_SENSOR_FRONT_LEFT))
     {
@@ -81,7 +81,7 @@ bool isFrontLeftBlack()
         return false;
     }
 }
-bool isBackLeftBlack()
+bool isBackLeftWhite()
 {
     if (digitalRead(LINE_SENSOR_BACK_LEFT))
     {
@@ -90,7 +90,7 @@ bool isBackLeftBlack()
         return false;
     }
 }
-bool isBackRightBlack()
+bool isBackRightWhite()
 {
     if (digitalRead(LINE_SENSOR_BACK_RIGHT))
     {
@@ -147,7 +147,6 @@ void loop()
                 startMillis = millis();
                 goForward(155);
                 state = RUSH;
-                Serial.println("RUSH");
             }
             else
             {
@@ -158,10 +157,11 @@ void loop()
         break;
 
     case RUSH:
+        Serial.println("RUSH");
         currentMillis = millis();
         // Serial.println(currentMillis);
         Serial.println(long_sensor.getDistance());
-        //      float distance = long_sensor.getDistance();
+        //float distance = long_sensor.getDistance();
         if (long_sensor.getDistance() > 50)
         { // we have lost the enemy
             spinLeft();
@@ -197,22 +197,41 @@ void loop()
         break;
 
     case (REVERSE):
-
+        Serial.println("REVERSE");
+        currentMillis = millis();
+        if(currentMillis - startMillis >= 2000){
+            if (long_sensor.getDistance() < 50)
+            { // we have detected enemy robot!! Charge!!
+                startMillis = millis();
+                goForward(155);
+                state = RUSH;
+                Serial.println("RUSH");
+            }
+            else
+            {
+                spinLeft();
+                state = TURN_lEFT;
+            }
+        }
         break;
 
     case PUSH_STATE:
         //in this push state we need to check to see if we're heading off the edge.
-        if(isFrontLeftBlack()){
+        if(isFrontLeftWhite()){
             goBackward();
-            state = REVERSE;            
-        }else if(isFrontRightBlack()){
+            startMillis = millis();
+            state = REVERSE;          
+        }else if(isFrontRightWhite()){
             goBackward();
+            startMillis = millis();
             state = REVERSE;
-        }else if(isBackLeftBlack()){
+        }else if(isBackLeftWhite()){
             goBackward();
+            startMillis = millis();
             state = REVERSE;
-        }else if(isBackRightBlack()){
+        }else if(isBackRightWhite()){
             goBackward();
+            startMillis = millis();
             state = REVERSE;
         }
         break;
@@ -221,23 +240,24 @@ void loop()
         state = BEGINNING;
         break;
     case TEST:
-        Serial.print("Front Left ");
-        Serial.println(isFrontLeftBlack());
-        delay(100);
-        Serial.print("Front Right ");
-        Serial.println(isFrontRightBlack());
-        delay(100);
-        Serial.print("Back Left ");
-        Serial.println(isBackLeftBlack());
-        delay(100);
-        Serial.print("Back Right ");
-        Serial.println(isBackRightBlack());
+        goForward();
+        // Serial.print("Front Left ");
+        // Serial.println(isFrontLeftWhite());
+        // delay(100);
+        // Serial.print("Front Right ");
+        // Serial.println(isFrontRightWhite());
+        // delay(100);
+        // Serial.print("Back Left ");
+        // Serial.println(isBackLeftWhite());
+        // delay(100);
+        // Serial.print("Back Right ");
+        // Serial.println(isBackRightWhite());
         
-        // if (isFrontRightBlack())
+        // if (isFrontRightWhite())
         // {
         //     escapeRightBack();
         // }
-        // else if (isFrontLeftBlack())
+        // else if (isFrontLeftWhite())
         // {
         //     escapeLeftBack();
         // }
