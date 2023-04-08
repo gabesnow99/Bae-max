@@ -58,15 +58,14 @@ void motor_functions_test()
     stopWheels();
     delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running.
 }
-bool isRightBlack(){
+bool isFrontRightBlack(){
     if(digitalRead(LINE_SENSOR_RIGHT)){
         return true;
     }else{
         return false;
     }
 }
-
-bool isLeftBlack(){
+bool isFrontLeftBlack(){
     if(digitalRead(LINE_SENSOR_LEFT)){
         return true;
     }else{
@@ -185,9 +184,9 @@ void loop()
         break;
     case TEST:
         // Serial.println(digitalRead(LINE_SENSOR_LEFT));
-        if(isRightBlack()){
+        if(isFrontRightBlack()){
           escapeRightBack();
-        }else if(isLeftBlack()){
+        }else if(isFrontLeftBlack()){
           escapeLeftBack();
         }else{
           goBackward();
