@@ -1,7 +1,7 @@
 {
     "board": "arduino:avr:nano",
     "programmer": "avrispmkii",
-    "port": "COM4",
-    "sketch": "Arduino Test Code\\State_Machine_First_Steps\\State_Machine_First_Steps.ino",
+    "port": "COM3",
+    "sketch": "Arduino Test Code\\sideSensorTest\\sideSensorTest.ino",
     "configuration": "cpu=atmega328"
 }

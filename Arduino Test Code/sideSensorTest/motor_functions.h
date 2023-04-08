@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <SharpIR.h>
 
 int RB = 6; // PIN D6 TO IN1
 int RF = 9; // PIN D9 TO IN2
@@ -51,11 +50,11 @@ void goBackward(int vel, int milliseconds)
 	analogWrite(LF, 0);
 	analogWrite(RB, vel);
 	analogWrite(LB, vel);
-	delay(milliseconds);
-	analogWrite(RF, 0);
-	analogWrite(LF, 0);
-	analogWrite(RB, 0);
-	analogWrite(LB, 0);
+	// delay(milliseconds);
+	// analogWrite(RF, 0);
+	// analogWrite(LF, 0);
+	// analogWrite(RB, 0);
+	// analogWrite(LB, 0);
 }
 
 void turnRight(int deg = 90, int vel = 150) //going to need to test the blocking that occurs here!!
@@ -128,14 +127,4 @@ void escapeLeftBack(){
 	analogWrite(LF, 0);
 	analogWrite(RB, 0);
 	analogWrite(LB, 0);
-}
-
-unsigned long getFilteredDist(SharpIR long_sensor) {
-  int windowSize = 10;
-  unsigned long distArr [windowSize];
-  unsigned long sum = 0;
-  for (int i = 0; i < windowSize; i++) {
-    sum += long_sensor.getDistance();
-  }
-  return sum / windowSize;
 }
