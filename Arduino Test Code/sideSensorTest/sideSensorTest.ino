@@ -73,7 +73,7 @@ bool isFrontRightBlack(){
 }
 
 bool isFrontLeftBlack(){
-    if(digitalRead(LINE_SENSOR_LEFT)){
+    if(digitalRead(LINE_SENSOR_FRONT_LEFT)){
         return true;
     }else{
         return false;
@@ -92,7 +92,7 @@ void setup()
     // SENSOR INPUT PINS
     pinMode(SHORT_SENSOR_INPUT, INPUT);
     pinMode(START_SENSOR_INPUT, INPUT);
-    pinMode(LINE_SENSOR_LEFT, INPUT);
+    pinMode(LINE_SENSOR_FRONT_LEFT, INPUT);
     pinMode(LINE_SENSOR_RIGHT, INPUT);
     stopWheels();
     // lONG_SENSOR_INPUT is already configured by the object creation.
@@ -194,7 +194,7 @@ void loop()
         state = BEGINNING;
         break;
     case TEST:
-        // Serial.println(digitalRead(LINE_SENSOR_LEFT));
+        // Serial.println(digitalRead(LINE_SENSOR_FRONT_LEFT));
         // if(isFrontRightBlack()){
         //   escapeRightBack();
         // }else if(isFrontLeftBlack()){

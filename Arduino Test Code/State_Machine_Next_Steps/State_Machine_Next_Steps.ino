@@ -56,7 +56,7 @@ void setup() {
 	//SENSOR INPUT PINS
 	pinMode(SHORT_SENSOR_INPUT, INPUT);
 	pinMode(START_SENSOR_INPUT, INPUT);
-	pinMode(LINE_SENSOR_LEFT, INPUT);
+	pinMode(LINE_SENSOR_FRONT_LEFT, INPUT);
 	pinMode(LINE_SENSOR_RIGHT, INPUT);
 	stopWheels();
 	//lONG_SENSOR_INPUT is already configured by the object creation.

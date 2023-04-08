@@ -9,9 +9,10 @@
 #define LONG_SENSOR_INPUT A7
 #define SHORT_SENSOR_INPUT 12
 #define START_SENSOR_INPUT 5
-#define LINE_SENSOR_LEFT 7  // the digital input pin for line sensor 1
-#define LINE_SENSOR_RIGHT 8 //'' for line sensor 2
-
+#define LINE_SENSOR_FRONT_LEFT 7  // the digital input pin for line sensor 1
+#define LINE_SENSOR_FRONT_RIGHT 8 //'' for line sensor 2
+#define LINE_SENSOR_BACK_LEFT 10
+#define LINE_SENSOR_BACK_RIGHT 11
 // Global Variables
 unsigned int turnSpeed = 150;
 unsigned int fullSpeed = 255;
@@ -58,15 +59,41 @@ void motor_functions_test()
     stopWheels();
     delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running.
 }
-bool isFrontRightBlack(){
-    if(digitalRead(LINE_SENSOR_RIGHT)){
+bool isFrontRightBlack()
+{
+    if (digitalRead(LINE_SENSOR_FRONT_RIGHT))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool isFrontLeftBlack()
+{
+    if (digitalRead(LINE_SENSOR_FRONT_LEFT))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+bool isBackLeftBlack()
+{
+    if (digitalRead(LINE_SENSOR_BACK_LEFT))
+    {
         return true;
     }else{
         return false;
     }
 }
-bool isFrontLeftBlack(){
-    if(digitalRead(LINE_SENSOR_LEFT)){
+bool isBackRightBlack()
+{
+    if (digitalRead(LINE_SENSOR_BACK_RIGHT))
+    {
         return true;
     }else{
         return false;
@@ -85,8 +112,8 @@ void setup()
     // SENSOR INPUT PINS
     pinMode(SHORT_SENSOR_INPUT, INPUT);
     pinMode(START_SENSOR_INPUT, INPUT);
-    pinMode(LINE_SENSOR_LEFT, INPUT);
-    pinMode(LINE_SENSOR_RIGHT, INPUT);
+    pinMode(LINE_SENSOR_FRONT_LEFT, INPUT);
+    pinMode(LINE_SENSOR_FRONT_RIGHT, INPUT);
     stopWheels();
     // lONG_SENSOR_INPUT is already configured by the object creation.
     // This article explains how to remap the default pwm frequencies for arduino
@@ -130,7 +157,7 @@ void loop()
 
     case RUSH:
         currentMillis = millis();
-        //			Serial.println(currentMillis);
+        // Serial.println(currentMillis);
         Serial.println(long_sensor.getDistance());
 
         //      float distance = long_sensor.getDistance();
@@ -142,7 +169,7 @@ void loop()
         }
         else if (long_sensor.getDistance() < 10)
         {
-            //        gabesSuperFunFloat = currentMillis;
+            // gabesSuperFunFloat = currentMillis;
             state = JUKE;
         }
 
@@ -183,13 +210,18 @@ void loop()
         state = BEGINNING;
         break;
     case TEST:
-        // Serial.println(digitalRead(LINE_SENSOR_LEFT));
-        if(isFrontRightBlack()){
-          escapeRightBack();
-        }else if(isFrontLeftBlack()){
-          escapeLeftBack();
-        }else{
-          goBackward();
+        // Serial.println(digitalRead(LINE_SENSOR_FRONT_LEFT));
+        if (isFrontRightBlack())
+        {
+            escapeRightBack();
+        }
+        else if (isFrontLeftBlack())
+        {
+            escapeLeftBack();
+        }
+        else
+        {
+            goBackward();
         }
         break;
     default:
