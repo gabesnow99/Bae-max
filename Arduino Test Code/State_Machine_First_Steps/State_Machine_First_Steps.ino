@@ -114,11 +114,12 @@ void setup()
     pinMode(START_SENSOR_INPUT, INPUT);
     pinMode(LINE_SENSOR_FRONT_LEFT, INPUT);
     pinMode(LINE_SENSOR_FRONT_RIGHT, INPUT);
+    pinMode(LINE_SENSOR_BACK_LEFT, INPUT);
+    pinMode(LINE_SENSOR_BACK_RIGHT, INPUT);
+
     stopWheels();
     // lONG_SENSOR_INPUT is already configured by the object creation.
     // This article explains how to remap the default pwm frequencies for arduino
-    // TCCR2B = TCCR2B & B1111000 | B00000111;
-    // we may not use the above code, but here is the link to the article I was reading
     // https://microcontrollerslab.com/arduino-pwm-tutorial-generate-fix-and-variable-frequency-signal/#:~:text=The%20analogWrite()%20function%20which,using%20the%20analogWrite()%20command.
 }
 
@@ -127,7 +128,7 @@ void loop()
     // Begin the State Machine Layout
     distance = long_sensor.getDistance();
     // Serial.println("Current State"state);
-    // stopWheels();
+    
     switch (state)
     {
     case BEGINNING:
