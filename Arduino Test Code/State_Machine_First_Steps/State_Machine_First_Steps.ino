@@ -21,8 +21,8 @@ SharpIR long_sensor( SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT );
 =======
 #define LINE_SENSOR_FRONT_LEFT 7  // the digital input pin for line sensor 1
 #define LINE_SENSOR_FRONT_RIGHT 8 //'' for line sensor 2
-#define LINE_SENSOR_BACK_LEFT 10
-#define LINE_SENSOR_BACK_RIGHT 11
+#define LINE_SENSOR_BACK_LEFT 3
+#define LINE_SENSOR_BACK_RIGHT 2
 // Global Variables
 >>>>>>> abcc10b67a30059429bc70ad5d430f6001c48ccc
 unsigned int turnSpeed = 150;
@@ -226,6 +226,7 @@ bool isBackRightBlack()
         return false;
     }
 }
+
 void setup()
 {
     state = TEST;
@@ -288,9 +289,7 @@ void loop()
         currentMillis = millis();
         // Serial.println(currentMillis);
         Serial.println(long_sensor.getDistance());
-
         //      float distance = long_sensor.getDistance();
-
         if (long_sensor.getDistance() > 50)
         { // we have lost the enemy
             spinLeft();
@@ -312,16 +311,16 @@ void loop()
             state = RUSH;
             Serial.println("RUSH");
         }
-
         break;
 
     case TURN_RIGHT:
-
+        //DO WE WANT TO USE THIS?
         break;
 
     case JUKE:
         Serial.println("JUKE");
         pivotLeft(270);
+        goForward();
         state = PUSH_STATE;
         break;
 
@@ -330,28 +329,50 @@ void loop()
         break;
 
     case PUSH_STATE:
-        goForward();
-        while (1)
-            ;
+        //in this push state we need to check to see if we're heading off the edge.
+        if(isFrontLeftBlack()){
+            goBackward();
+            state = REVERSE;            
+        }else if(isFrontRightBlack()){
+            goBackward();
+            state = REVERSE;
+        }else if(isBackLeftBlack()){
+            goBackward();
+            state = REVERSE;
+        }else if(isBackRightBlack()){
+            goBackward();
+            state = REVERSE;
+        }
         break;
     case STOP:
         delay(5000);
         state = BEGINNING;
         break;
     case TEST:
-        // Serial.println(digitalRead(LINE_SENSOR_FRONT_LEFT));
-        if (isFrontRightBlack())
-        {
-            escapeRightBack();
-        }
-        else if (isFrontLeftBlack())
-        {
-            escapeLeftBack();
-        }
-        else
-        {
-            goBackward();
-        }
+        Serial.print("Front Left ");
+        Serial.println(digitalRead(LINE_SENSOR_FRONT_LEFT));
+        delay(100);
+        Serial.print("Front Right ");
+        Serial.println(digitalRead(LINE_SENSOR_FRONT_RIGHT));
+        delay(100);
+        Serial.print("Back Left ");
+        Serial.println(digitalRead(LINE_SENSOR_BACK_LEFT));
+        delay(100);
+        Serial.print("Back Right ");
+        Serial.println(digitalRead(LINE_SENSOR_BACK_RIGHT));
+        
+        // if (isFrontRightBlack())
+        // {
+        //     escapeRightBack();
+        // }
+        // else if (isFrontLeftBlack())
+        // {
+        //     escapeLeftBack();
+        // }
+        // else
+        // {
+        //     goBackward();
+        // }
         break;
     default:
         break;
