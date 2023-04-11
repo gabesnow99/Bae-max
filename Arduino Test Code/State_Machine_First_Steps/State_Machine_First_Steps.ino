@@ -240,18 +240,18 @@ void loop()
         state = BEGINNING;
         break;
     case TEST:
-        goForward();
-        // Serial.print("Front Left ");
-        // Serial.println(isFrontLeftWhite());
-        // delay(100);
-        // Serial.print("Front Right ");
-        // Serial.println(isFrontRightWhite());
-        // delay(100);
-        // Serial.print("Back Left ");
-        // Serial.println(isBackLeftWhite());
-        // delay(100);
-        // Serial.print("Back Right ");
-        // Serial.println(isBackRightWhite());
+        //goForward();
+        Serial.print("Front Left ");
+        Serial.println(isFrontLeftWhite());
+        delay(100);
+        Serial.print("Front Right ");
+        Serial.println(isFrontRightWhite());
+        delay(100);
+        Serial.print("Back Left ");
+        Serial.println(isBackLeftWhite());
+        delay(100);
+        Serial.print("Back Right ");
+        Serial.println(isBackRightWhite());
         
         // if (isFrontRightWhite())
         // {
