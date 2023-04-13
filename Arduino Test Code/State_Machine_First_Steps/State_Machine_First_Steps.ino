@@ -10,9 +10,9 @@
 #define SHORT_SENSOR_INPUT 12
 #define START_SENSOR_INPUT 5
 #define LINE_SENSOR_FRONT_LEFT 7  // the digital input pin for line sensor 1
-#define LINE_SENSOR_FRONT_RIGHT 8 //'' for line sensor 2
-#define LINE_SENSOR_BACK_LEFT 3
-#define LINE_SENSOR_BACK_RIGHT 2
+#define LINE_SENSOR_FRONT_RIGHT 2 //'' for line sensor 2
+#define LINE_SENSOR_BACK_LEFT 4
+#define LINE_SENSOR_BACK_RIGHT 3
 // Global Variables
 unsigned int turnSpeed = 150;
 unsigned int fullSpeed = 255;
@@ -241,16 +241,16 @@ void loop()
         break;
     case TEST:
         //goForward();
-        Serial.print("Front Left ");
+        // Serial.print("Front Left "); //THIS IS THE PROBLEMATIC ONE!!!
         Serial.println(isFrontLeftWhite());
         delay(100);
-        Serial.print("Front Right ");
+        // Serial.print("Front Right ");
         Serial.println(isFrontRightWhite());
         delay(100);
-        Serial.print("Back Left ");
+        // Serial.print("Back Left ");
         Serial.println(isBackLeftWhite());
         delay(100);
-        Serial.print("Back Right ");
+        // Serial.print("Back Right ");
         Serial.println(isBackRightWhite());
         
         // if (isFrontRightWhite())
