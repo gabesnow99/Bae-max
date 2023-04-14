@@ -61,7 +61,7 @@ void motor_functions_test()
 }
 bool isFrontRightWhite()
 {
-    if (digitalRead(LINE_SENSOR_FRONT_RIGHT))
+    if (digitalRead(!LINE_SENSOR_FRONT_RIGHT))
     {
         return true;
     }
@@ -72,7 +72,7 @@ bool isFrontRightWhite()
 }
 bool isFrontLeftWhite()
 {
-    if (digitalRead(LINE_SENSOR_FRONT_LEFT))
+    if (digitalRead(!LINE_SENSOR_FRONT_LEFT))
     {
         return true;
     }
@@ -83,7 +83,7 @@ bool isFrontLeftWhite()
 }
 bool isBackLeftWhite()
 {
-    if (digitalRead(LINE_SENSOR_BACK_LEFT))
+    if (digitalRead(!LINE_SENSOR_BACK_LEFT))
     {
         return true;
     }else{
@@ -92,7 +92,7 @@ bool isBackLeftWhite()
 }
 bool isBackRightWhite()
 {
-    if (digitalRead(LINE_SENSOR_BACK_RIGHT))
+    if (digitalRead(!LINE_SENSOR_BACK_RIGHT))
     {
         return true;
     }else{
