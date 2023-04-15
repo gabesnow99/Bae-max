@@ -168,7 +168,7 @@ void loop()
     case RUSH:
         if(isFrontLeftWhite() || isFrontRightWhite()){
             stopWheels();
-            spinLeft();
+            spinLeft(150);
             state = TURN_lEFT;
             startMillis = millis();
         }
@@ -178,7 +178,7 @@ void loop()
         currentMillis = millis();
         if (currentMillis - startMillis >= 500)
         {
-            goForward(255);
+            goBackward(255);
             state = RUSH;
         }
 
@@ -188,6 +188,7 @@ void loop()
         state = BEGINNING;
         break;
     case TEST:
+    
         break;
     default:
         break;

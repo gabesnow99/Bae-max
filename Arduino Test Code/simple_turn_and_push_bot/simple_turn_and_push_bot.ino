@@ -44,24 +44,6 @@ int diff = 0;
 // create new distance sensor object
 SharpIR long_sensor(SharpIR::GP2Y0A21YK0F, LONG_SENSOR_INPUT);
 
-void motor_functions_test()
-{
-    // test each one of the motor functions in turn
-    goForward(fullSpeed, 5000);
-    delay(1000);
-    turnLeft(90, turnSpeed);
-    delay(5000);
-    stopWheels();
-    delay(1000);
-    turnRight(90, turnSpeed);
-    delay(5000);
-    stopWheels();
-    delay(1000);
-    goBackward(fullSpeed, 5000);
-    delay(5000);
-    stopWheels();
-    delay(10000); // caution!!! final delay is long, but after ten seconds it will probably surprise you by running.
-}
 bool isFrontRightWhite()
 {
     if (!digitalRead(LINE_SENSOR_FRONT_RIGHT))
