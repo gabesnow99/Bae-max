@@ -61,7 +61,7 @@ void motor_functions_test()
 }
 bool isFrontRightWhite()
 {
-    if (digitalRead(!LINE_SENSOR_FRONT_RIGHT))
+    if (!digitalRead(LINE_SENSOR_FRONT_RIGHT))
     {
         return true;
     }
@@ -72,7 +72,7 @@ bool isFrontRightWhite()
 }
 bool isFrontLeftWhite()
 {
-    if (digitalRead(!LINE_SENSOR_FRONT_LEFT))
+    if (!digitalRead(LINE_SENSOR_FRONT_LEFT))
     {
         return true;
     }
@@ -83,7 +83,7 @@ bool isFrontLeftWhite()
 }
 bool isBackLeftWhite()
 {
-    if (digitalRead(!LINE_SENSOR_BACK_LEFT))
+    if (!digitalRead(LINE_SENSOR_BACK_LEFT))
     {
         return true;
     }else{
@@ -92,7 +92,7 @@ bool isBackLeftWhite()
 }
 bool isBackRightWhite()
 {
-    if (digitalRead(!LINE_SENSOR_BACK_RIGHT))
+    if (!digitalRead(LINE_SENSOR_BACK_RIGHT))
     {
         return true;
     }else{
@@ -102,7 +102,7 @@ bool isBackRightWhite()
 
 void setup()
 {
-    state = TEST;
+    state = BEGINNING;
     Serial.begin(9600);
     // Pins to configure.
     // MOTOR PINS ALL ARE PWM PINS.
@@ -127,7 +127,7 @@ void setup()
 void loop()
 {
     // Begin the State Machine Layout
-    distance = long_sensor.getDistance();
+    //distance = long_sensor.getDistance();
     // Serial.println("Current State"state);
     
     switch (state)
@@ -142,15 +142,15 @@ void loop()
         if (startupSensorSeen)
         { // we've read the start sensor that wants us to drive!!
 
-            if (long_sensor.getDistance() < 50)
+            if (getFilteredDist(long_sensor) < 50)
             { // we have detected enemy robot!! Charge!!
                 startMillis = millis();
-                goForward(155);
+                goForward(255);
                 state = RUSH;
             }
             else
             {
-                spinLeft();
+                spinLeft(255);
                 state = TURN_lEFT;
             }
         }
@@ -159,24 +159,22 @@ void loop()
     case RUSH:
         Serial.println("RUSH");
         currentMillis = millis();
-        // Serial.println(currentMillis);
-        Serial.println(long_sensor.getDistance());
-        //float distance = long_sensor.getDistance();
-        if (long_sensor.getDistance() > 50)
+        if (getFilteredDist(long_sensor) > 50)
         { // we have lost the enemy
-            spinLeft();
+            spinLeft(255);
             state = TURN_lEFT;
         }
-        else if (long_sensor.getDistance() < 10)
+        else if (getFilteredDist(long_sensor) < 10)
         {
-            // gabesSuperFunFloat = currentMillis;
+            jukeTurn(25, 200);
+            startMillis = millis();
             state = JUKE;
         }
 
         break;
 
     case TURN_lEFT:
-        if (long_sensor.getDistance() <= 50)
+        if (getFilteredDist(long_sensor) <= 50)
         { // we have detected enemy robot!! Charge!!
             startMillis = millis();
             goForward(155);
@@ -191,9 +189,11 @@ void loop()
 
     case JUKE:
         Serial.println("JUKE");
-        pivotLeft(270);
-        goForward();
-        state = PUSH_STATE;
+        currentMillis = millis();
+        if(currentMillis - startMillis >= 500){
+            state = PUSH_STATE;
+            goBackward(255);
+        }
         break;
 
     case (REVERSE):
@@ -218,19 +218,19 @@ void loop()
     case PUSH_STATE:
         //in this push state we need to check to see if we're heading off the edge.
         if(isFrontLeftWhite()){
-            goBackward();
+            goForward();
             startMillis = millis();
             state = REVERSE;          
         }else if(isFrontRightWhite()){
-            goBackward();
+            goForward();
             startMillis = millis();
             state = REVERSE;
         }else if(isBackLeftWhite()){
-            goBackward();
+            goForward();
             startMillis = millis();
             state = REVERSE;
         }else if(isBackRightWhite()){
-            goBackward();
+            goForward();
             startMillis = millis();
             state = REVERSE;
         }
@@ -242,16 +242,16 @@ void loop()
     case TEST:
         //goForward();
         // Serial.print("Front Left "); //THIS IS THE PROBLEMATIC ONE!!!
-        Serial.println(isFrontLeftWhite());
-        delay(100);
-        // Serial.print("Front Right ");
-        Serial.println(isFrontRightWhite());
-        delay(100);
-        // Serial.print("Back Left ");
-        Serial.println(isBackLeftWhite());
-        delay(100);
-        // Serial.print("Back Right ");
-        Serial.println(isBackRightWhite());
+        // Serial.println(isFrontLeftWhite());
+        // delay(100);
+        // // Serial.print("Front Right ");
+        // Serial.println(isFrontRightWhite());
+        // delay(100);
+        // // Serial.print("Back Left ");
+        // Serial.println(isBackLeftWhite());
+        // delay(100);
+        // // Serial.print("Back Right ");
+        // Serial.println(isBackRightWhite());
         
         // if (isFrontRightWhite())
         // {
