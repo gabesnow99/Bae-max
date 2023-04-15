@@ -136,7 +136,7 @@ void escapeLeftBack()
 unsigned long getFilteredDist(SharpIR long_sensor)
 {
 	int windowSize = 10;
-	unsigned long distArr[windowSize];
+	// unsigned long distArr[windowSize];
 	unsigned long sum = 0;
 	for (int i = 0; i < windowSize; i++)
 	{
