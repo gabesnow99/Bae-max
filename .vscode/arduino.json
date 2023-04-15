@@ -2,6 +2,6 @@
     "board": "arduino:avr:nano",
     "programmer": "avrispmkii",
     "port": "COM4",
-    "sketch": "Arduino Test Code\\State_Machine_First_Steps\\State_Machine_First_Steps.ino",
+    "sketch": "Arduino Test Code\\simple_push_bot\\simple_push_bot.ino",
     "configuration": "cpu=atmega328old"
 }
