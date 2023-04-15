@@ -8,7 +8,7 @@
 
 #define LONG_SENSOR_INPUT A7
 #define SHORT_SENSOR_INPUT 12
-#define START_SENSOR_INPUT 5
+#define START_SENSOR_INPUT A5
 #define LINE_SENSOR_FRONT_LEFT 7  // the digital input pin for line sensor 1
 #define LINE_SENSOR_FRONT_RIGHT 2 //'' for line sensor 2
 #define LINE_SENSOR_BACK_LEFT 4
@@ -141,21 +141,20 @@ void loop()
         }
         if (startupSensorSeen)
         { // we've read the start sensor that wants us to drive!!
-
-            if (getFilteredDist(long_sensor) < 50)
-            { // we have detected enemy robot!! Charge!!
-                startMillis = millis();
-                goForward(255);
-                state = RUSH;
-            }
-            else
-            {
-                spinLeft(255);
-                state = TURN_lEFT;
-            }
+            // if (getFilteredDist(long_sensor) < 50)
+            // { // we have detected enemy robot!! Charge!!
+            //     startMillis = millis();
+            //     goForward(255);
+            //     state = RUSH;
+            // }
+            // else
+            // {
+            //     spinLeft(80);
+            //     state = TURN_lEFT;
+            // }
+            state = TEST;
         }
         break;
-
     case RUSH:
         Serial.println("RUSH");
         currentMillis = millis();
@@ -200,7 +199,7 @@ void loop()
         Serial.println("REVERSE");
         currentMillis = millis();
         if(currentMillis - startMillis >= 2000){
-            if (long_sensor.getDistance() < 50)
+            if (getFilteredDist(long_sensor) < 50)
             { // we have detected enemy robot!! Charge!!
                 startMillis = millis();
                 goForward(155);
@@ -217,29 +216,33 @@ void loop()
 
     case PUSH_STATE:
         //in this push state we need to check to see if we're heading off the edge.
-        if(isFrontLeftWhite()){
-            goForward();
-            startMillis = millis();
-            state = REVERSE;          
-        }else if(isFrontRightWhite()){
-            goForward();
-            startMillis = millis();
-            state = REVERSE;
-        }else if(isBackLeftWhite()){
-            goForward();
-            startMillis = millis();
-            state = REVERSE;
-        }else if(isBackRightWhite()){
-            goForward();
-            startMillis = millis();
-            state = REVERSE;
-        }
+        // if(isFrontLeftWhite()){
+        //     goForward();
+        //     startMillis = millis();
+        //     state = REVERSE;          
+        // }else if(isFrontRightWhite()){
+        //     goForward();
+        //     startMillis = millis();
+        //     state = REVERSE;
+        // }else if(isBackLeftWhite()){
+        //     goForward();
+        //     startMillis = millis();
+        //     state = REVERSE;
+        // }else if(isBackRightWhite()){
+        //     goForward();
+        //     startMillis = millis();
+        //     state = REVERSE;
+        // }
+        delay(3000);
+        stopWheels();
+        state = BEGINNING;
         break;
     case STOP:
         delay(5000);
         state = BEGINNING;
         break;
     case TEST:
+        Serial.println(getFilteredDist(long_sensor));
         //goForward();
         // Serial.print("Front Left "); //THIS IS THE PROBLEMATIC ONE!!!
         // Serial.println(isFrontLeftWhite());
