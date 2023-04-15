@@ -143,7 +143,7 @@ void loop()
         }
         if (startupSensorSeen)
         { // we've read the start sensor that wants us to drive!!
-            if ()
+            if (true)
             {
                 startMillis = millis();
                 goForward(255);
@@ -223,6 +223,7 @@ void loop()
             delay(3000);
             stopWheels();
             state = BEGINNING;
+        }
             break;
         case STOP:
             delay(5000);

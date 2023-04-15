@@ -132,7 +132,7 @@ void escapeLeftBack()
 	analogWrite(RB, 0);
 	analogWrite(LB, 0);
 }
-
+//this function will filter the signal from the sensor and return the average of the last 10 readings
 unsigned long getFilteredDist(SharpIR long_sensor)
 {
 	int windowSize = 10;
@@ -150,4 +150,25 @@ void jukeTurn(int slowVel, int fastVel){
 	analogWrite(RF, 0);
 	analogWrite(LF, 0);
 
+}
+
+//create an alpha filter to smooth out the readings from the sensor
+void alternateAlphaFilter(unsigned long *distArr, unsigned long dist, int windowSize)
+{
+	for (int i = 0; i < windowSize - 1; i++)
+	{
+		distArr[i] = distArr[i + 1];
+	}
+	distArr[windowSize - 1] = dist;
+}
+
+//this function will allow the arduino to connect with bluetooth
+void connectBluetooth()
+{
+	// Serial.begin(9600);
+	// Serial.println("Connecting to bluetooth");
+	// Serial.println("Waiting for connection");
+	// while (!Serial)
+	// 	;
+	// Serial.println("Connected");
 }
